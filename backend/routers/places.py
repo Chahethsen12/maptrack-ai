@@ -31,13 +31,14 @@ def _get_or_404(place_id: int, db: Session) -> Place:
 # ── Routes ───────────────────────────────────────────────────────────────────
 
 @router.get("/", response_model=list[PlaceOut])
-def list_places(\n    category: str | None = None,
+def list_places(
+    category: str | None = None,
     limit: int = 200,
     db: Session = Depends(get_db),
 ):
     """
     Fetch all saved places, ordered by most recent first.
-    
+
     Query parameters:
         category: Optional filter by category name (case-sensitive).
         limit: Max results (default 200).
@@ -68,7 +69,7 @@ def get_place(place_id: int, db: Session = Depends(get_db)):
 def update_place(place_id: int, payload: PlaceUpdate, db: Session = Depends(get_db)):
     """
     Partially update a place. Only supplied fields are changed.
-    
+
     This uses Pydantic's exclude_unset=True to allow clients to omit
     fields they don't want to modify, preserving existing values.
     """
